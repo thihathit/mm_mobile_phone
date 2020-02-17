@@ -8,7 +8,6 @@
 namespace Drupal\mm_mobile_phone;
 
 /**
- * @file
  * Convertor class
  */
 class MmMobilePhoneNumber {
