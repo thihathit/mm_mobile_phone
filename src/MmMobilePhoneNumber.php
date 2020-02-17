@@ -8,7 +8,7 @@
 namespace Drupal\mm_mobile_phone;
 
 /**
- * Convertor class
+ * Convertor class.
  */
 class MmMobilePhoneNumber {
   public $original_number = NULL;
