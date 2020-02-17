@@ -12,7 +12,7 @@ class MmMobilePhoneNumber {
   private $networks = [];
   private $expressions = [];
 
-  private function __construct($number) {
+  public function __construct($number) {
     $this->operators['ooredoo'] = "Ooredoo";
     $this->operators['telenor'] = "Telenor";
     $this->operators['mytel'] = "Mytel";
