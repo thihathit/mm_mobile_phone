@@ -25,16 +25,16 @@ class MmMobilePhoneNumber extends FieldItemBase {
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return [
-      'columns' => array(
-        'value' => array(
+      'columns' => [
+        'value' => [
           'type' => 'varchar',
           'not null' => FALSE,
           'length' => 64,
-        ),
-      ),
+        ],
+      ],
       'indexes' => [
-        'value' => ['value']
-      ]
+        'value' => ['value'],
+      ],
     ];
   }
 
