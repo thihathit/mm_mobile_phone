@@ -12,11 +12,15 @@ class MmMobilePhoneNumber {
   private $networks = [];
   private $expressions = [];
 
+  /**
+   * Assign rules privately.
+   * Process the phone number info.
+   */
   public function __construct($number) {
     $this->operators['ooredoo'] = "Ooredoo";
     $this->operators['telenor'] = "Telenor";
     $this->operators['mytel'] = "Mytel";
-    $this->operators['mpt']  = "MPT";
+    $this->operators['mpt'] = "MPT";
     $this->operators['unknown'] = "Unknown";
 
     $this->networks['gsm'] = "GSM";
@@ -41,11 +45,11 @@ class MmMobilePhoneNumber {
 
     $this->original_number = $number;
 
-    // add processed contents
+    // Add processed contents
     $this->process();
   }
 
-  public function check_regex($patterns=[], $input) {
+  public function checkRegex($patterns=[], $input) {
     $result = TRUE;
 
     foreach ($patterns as $pattern) {
@@ -61,14 +65,14 @@ class MmMobilePhoneNumber {
     return $result;
   }
 
-  public function is_valid_mm_phonenumber() {
+  public function isValidMmPhonenumber() {
     if ($this->original_number) {
-      $phone = $this->sanitize_phonenumber();
+      $phone = $this->sanitizePhonenumber();
       $regex = [
         $this->expressions['formats']['mm_mobilephone']
       ];
 
-      if ($this->check_regex($regex, $phone)) {
+      if ($this->checkRegex($regex, $phone)) {
         return TRUE;
       }
     }
@@ -76,7 +80,7 @@ class MmMobilePhoneNumber {
     return FALSE;
   }
 
-  public function sanitize_phonenumber() {
+  public function sanitizePhonenumber() {
     $phone = $this->original_number;
 
     $phone = trim($phone);
@@ -84,15 +88,15 @@ class MmMobilePhoneNumber {
     $phone = str_replace('-', '', $phone);
     $phone = str_replace(',', '', $phone);
 
-    // process only when country code contains
-    if ( $this->check_regex([ $this->expressions['formats']['country_code'] ], $phone) ) {
-      // try to remove double country code
-      if ( $this->check_regex([ $this->expressions['formats']['double_country_code'] ], $phone) ) {
+    // Process only when country code contains
+    if ( $this->checkRegex([ $this->expressions['formats']['country_code'] ], $phone) ) {
+      // Try to remove double country code
+      if ( $this->checkRegex([ $this->expressions['formats']['double_country_code'] ], $phone) ) {
         $phone = $this->str_replace_once('9595', '95', $phone);
       }
 
-      // remove 0 before area code
-      if ( $this->check_regex([ $this->expressions['formats']['zero_before_areacode'] ], $phone) ) {
+      // Remove 0 before area code
+      if ( $this->checkRegex([ $this->expressions['formats']['zero_before_areacode'] ], $phone) ) {
         $phone = $this->str_replace_once('9509', '959', $phone);
       }
     }
@@ -100,14 +104,14 @@ class MmMobilePhoneNumber {
     return $phone;
   }
 
-  public function get_telecom_name() {
+  public function getTelecomName() {
     $operator = $this->operators['unknown'];
 
-    if ($this->is_valid_mm_phonenumber()) {
-      $phone = $this->sanitize_phonenumber();
+    if ($this->isValidMmPhonenumber()) {
+      $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['operators'] as $operator_name => $regex) {
-        if ( $this->check_regex([ $regex ], $phone) ) {
+        if ( $this->checkRegex([ $regex ], $phone) ) {
           $operator = $this->operators[$operator_name];
 
           break;
@@ -118,7 +122,7 @@ class MmMobilePhoneNumber {
     return $operator;
   }
 
-  public function str_replace_once($find, $replacement, $string) {
+  private function str_replace_once($find, $replacement, $string) {
     $occurrence = strpos($string, $find);
     if ($occurrence !== FALSE) {
       $string = substr_replace($string, $replacement, $occurrence, strlen($find));
@@ -127,14 +131,14 @@ class MmMobilePhoneNumber {
     return $string;
   }
 
-  public function get_phone_network_type() {
+  public function getPhoneNetworkType() {
     $network = $this->networks['unknown'];
 
-    if ($this->is_valid_mm_phonenumber()) {
-      $phone = $this->sanitize_phonenumber();
+    if ($this->isValidMmPhonenumber()) {
+      $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['networks'] as $network_name => $regex) {
-        if ( $this->check_regex([ $regex ], $phone) ) {
+        if ( $this->checkRegex([ $regex ], $phone) ) {
           $network = $this->networks[$network_name];
 
           break;
@@ -142,7 +146,7 @@ class MmMobilePhoneNumber {
       }
 
       // 'gsm' network if above failed to detect network
-      // because 'gsm' doesn't have detection regex
+      // Because 'gsm' doesn't have detection regex
       if ($network == $this->networks['unknown']) {
         $network = $this->networks['gsm'];
       }
@@ -151,42 +155,45 @@ class MmMobilePhoneNumber {
     return $network;
   }
 
-  public function local_phonenumber() {
-    if ($this->is_valid_mm_phonenumber()) {
-      $phone = $this->sanitize_phonenumber();
+  public function localPhoneNumber() {
+    if ($this->isValidMmPhonenumber()) {
+      $phone = $this->sanitizePhonenumber();
       $phone = str_replace('+', '', $phone);
 
       return $this->str_replace_once('959', '09', $phone);
     }
   }
 
-  public function international_phonenumber() {
-    $phone = $this->local_phonenumber();
+  public function internationalPhoneNumber() {
+    $phone = $this->localPhoneNumber();
 
     return $this->str_replace_once('09', '+959', $phone);
   }
 
-  public function change_number($number) {
+  public function switchNumber($number) {
     $this->original_number = $number;
 
-    // re-process
+    // Re-process
     $re_process = $this->process();
 
     return $re_process;
   }
 
+  /**
+   * Construct outputs as public contents.
+   */
   public function process() {
-    $valid = $this->is_valid_mm_phonenumber();
-    $sanitize_phonenumber = $this->sanitize_phonenumber();
-    $network_type = $this->get_phone_network_type();
-    $telecom_name = $this->get_telecom_name();
-    $local_phonenumber = $this->local_phonenumber();
-    $international_phonenumber = $this->international_phonenumber();
+    $valid = $this->isValidMmPhonenumber();
+    $sanitizePhonenumber = $this->sanitizePhonenumber();
+    $network_type = $this->getPhoneNetworkType();
+    $telecom_name = $this->getTelecomName();
+    $localPhoneNumber = $this->localPhoneNumber();
+    $internationalPhoneNumber = $this->internationalPhoneNumber();
 
-    // define contents
-    $this->phonenumber = $valid ? $sanitize_phonenumber : NULL;
-    $this->local_phonenumber = $local_phonenumber;
-    $this->international_phonenumber = $international_phonenumber;
+    // Define contents
+    $this->phonenumber = $valid ? $sanitizePhonenumber : NULL;
+    $this->local_phonenumber = $localPhoneNumber;
+    $this->international_phonenumber = $internationalPhoneNumber;
     $this->network_type = $network_type;
     $this->valid = $valid;
     $this->telecom_name = $telecom_name;
