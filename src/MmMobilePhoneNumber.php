@@ -48,6 +48,9 @@ class MmMobilePhoneNumber {
     $this->process();
   }
 
+  /**
+   * Regex to match against rules.
+   */
   public function checkRegex($patterns=[], $input) {
     $result = TRUE;
 
@@ -64,6 +67,9 @@ class MmMobilePhoneNumber {
     return $result;
   }
 
+  /**
+   * Validate mobile number.
+   */
   public function isValidMmPhonenumber() {
     if ($this->original_number) {
       $phone = $this->sanitizePhonenumber();
@@ -79,6 +85,9 @@ class MmMobilePhoneNumber {
     return FALSE;
   }
 
+  /**
+   * Normalize mobile number.
+   */
   public function sanitizePhonenumber() {
     $phone = $this->original_number;
 
@@ -103,6 +112,9 @@ class MmMobilePhoneNumber {
     return $phone;
   }
 
+  /**
+   * Extract telecom name from regex range.
+   */
   public function getTelecomName() {
     $operator = $this->operators['unknown'];
 
@@ -121,6 +133,9 @@ class MmMobilePhoneNumber {
     return $operator;
   }
 
+  /**
+   * Custom string replacer.
+   */
   private function str_replace_once($find, $replacement, $string) {
     $occurrence = strpos($string, $find);
     if ($occurrence !== FALSE) {
@@ -130,6 +145,9 @@ class MmMobilePhoneNumber {
     return $string;
   }
 
+  /**
+   * Get network type.
+   */
   public function getPhoneNetworkType() {
     $network = $this->networks['unknown'];
 
@@ -154,6 +172,9 @@ class MmMobilePhoneNumber {
     return $network;
   }
 
+  /**
+   * Convert to local number.
+   */
   public function localPhoneNumber() {
     if ($this->isValidMmPhonenumber()) {
       $phone = $this->sanitizePhonenumber();
@@ -163,12 +184,18 @@ class MmMobilePhoneNumber {
     }
   }
 
+  /**
+   * Convert to international number.
+   */
   public function internationalPhoneNumber() {
     $phone = $this->localPhoneNumber();
 
     return $this->str_replace_once('09', '+959', $phone);
   }
 
+  /**
+   * Change phone number to re-process.
+   */
   public function switchNumber($number) {
     $this->original_number = $number;
 
