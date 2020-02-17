@@ -6,13 +6,13 @@ namespace Drupal\mm_mobile_phone;
  * Convertor class.
  */
 class MmMobilePhoneNumber {
-  public $original_number = NULL;
+  public $originalNumber = NULL;
 
   private $operators = [];
   private $networks = [];
   private $expressions = [];
 
-  function __construct($number){
+  function __construct($number) {
     $this->operators['ooredoo'] = "Ooredoo";
     $this->operators['telenor'] = "Telenor";
     $this->operators['mytel'] = "Mytel";
@@ -123,7 +123,7 @@ class MmMobilePhoneNumber {
   }
 
 
-  public function str_replace_once($find, $replacement, $string){
+  public function str_replace_once($find, $replacement, $string) {
     $occurrence = strpos($string, $find);
     if ($occurrence !== FALSE) {
       $string = substr_replace($string, $replacement, $occurrence, strlen($find));
