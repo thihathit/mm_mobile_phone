@@ -97,15 +97,15 @@ class MmMobilePhoneNumber {
     $phone = str_replace(',', '', $phone);
 
     // Process only when country code contains.
-    if ($this->checkRegex($phone, [ $this->expressions['formats']['country_code'] ])) {
+    if ($this->checkRegex($phone, [$this->expressions['formats']['country_code']])) {
       // Try to remove double country code.
-      if ($this->checkRegex($phone, [ $this->expressions['formats']['double_country_code'] ])) {
-        $phone = $this->str_replace_once('9595', '95', $phone);
+      if ($this->checkRegex($phone, [$this->expressions['formats']['double_country_code']])) {
+        $phone = $this->strReplaceOnce('9595', '95', $phone);
       }
 
       // Remove 0 before area code.
-      if ($this->checkRegex($phone, [ $this->expressions['formats']['zero_before_areacode'] ])) {
-        $phone = $this->str_replace_once('9509', '959', $phone);
+      if ($this->checkRegex($phone, [$this->expressions['formats']['zero_before_areacode']])) {
+        $phone = $this->strReplaceOnce('9509', '959', $phone);
       }
     }
 
@@ -122,7 +122,7 @@ class MmMobilePhoneNumber {
       $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['operators'] as $operator_name => $regex) {
-        if ($this->checkRegex($phone, [ $regex ])) {
+        if ($this->checkRegex($phone, [$regex])) {
           $operator = $this->operators[$operator_name];
 
           break;
@@ -136,7 +136,7 @@ class MmMobilePhoneNumber {
   /**
    * Custom string replacer.
    */
-  private function str_replace_once($find, $replacement, $string) {
+  private function strReplaceOnce($find, $replacement, $string) {
     $occurrence = strpos($string, $find);
     if ($occurrence !== FALSE) {
       $string = substr_replace($string, $replacement, $occurrence, strlen($find));
@@ -155,7 +155,7 @@ class MmMobilePhoneNumber {
       $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['networks'] as $network_name => $regex) {
-        if ($this->checkRegex($phone, [ $regex ])) {
+        if ($this->checkRegex($phone, [$regex])) {
           $network = $this->networks[$network_name];
 
           break;
@@ -180,7 +180,7 @@ class MmMobilePhoneNumber {
       $phone = $this->sanitizePhonenumber();
       $phone = str_replace('+', '', $phone);
 
-      return $this->str_replace_once('959', '09', $phone);
+      return $this->strReplaceOnce('959', '09', $phone);
     }
   }
 
@@ -190,7 +190,7 @@ class MmMobilePhoneNumber {
   public function internationalPhoneNumber() {
     $phone = $this->localPhoneNumber();
 
-    return $this->str_replace_once('09', '+959', $phone);
+    return $this->strReplaceOnce('09', '+959', $phone);
   }
 
   /**
@@ -235,4 +235,5 @@ class MmMobilePhoneNumber {
       'telecom_name' => $this->telecom_name,
     ];
   }
+
 }
