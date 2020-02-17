@@ -51,7 +51,7 @@ class MmMobilePhoneNumber {
   /**
    * Regex to match against rules.
    */
-  public function checkRegex($patterns=[], $input) {
+  public function checkRegex($input, $patterns = []) {
     $result = TRUE;
 
     foreach ($patterns as $pattern) {
@@ -74,10 +74,10 @@ class MmMobilePhoneNumber {
     if ($this->original_number) {
       $phone = $this->sanitizePhonenumber();
       $regex = [
-        $this->expressions['formats']['mm_mobilephone']
+        $this->expressions['formats']['mm_mobilephone'],
       ];
 
-      if ($this->checkRegex($regex, $phone)) {
+      if ($this->checkRegex($phone, $regex)) {
         return TRUE;
       }
     }
@@ -97,14 +97,14 @@ class MmMobilePhoneNumber {
     $phone = str_replace(',', '', $phone);
 
     // Process only when country code contains.
-    if ( $this->checkRegex([ $this->expressions['formats']['country_code'] ], $phone) ) {
+    if ($this->checkRegex($phone, [ $this->expressions['formats']['country_code'] ])) {
       // Try to remove double country code.
-      if ( $this->checkRegex([ $this->expressions['formats']['double_country_code'] ], $phone) ) {
+      if ($this->checkRegex($phone, [ $this->expressions['formats']['double_country_code'] ])) {
         $phone = $this->str_replace_once('9595', '95', $phone);
       }
 
       // Remove 0 before area code.
-      if ( $this->checkRegex([ $this->expressions['formats']['zero_before_areacode'] ], $phone) ) {
+      if ($this->checkRegex($phone, [ $this->expressions['formats']['zero_before_areacode'] ])) {
         $phone = $this->str_replace_once('9509', '959', $phone);
       }
     }
@@ -122,7 +122,7 @@ class MmMobilePhoneNumber {
       $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['operators'] as $operator_name => $regex) {
-        if ( $this->checkRegex([ $regex ], $phone) ) {
+        if ($this->checkRegex($phone, [ $regex ])) {
           $operator = $this->operators[$operator_name];
 
           break;
@@ -155,7 +155,7 @@ class MmMobilePhoneNumber {
       $phone = $this->sanitizePhonenumber();
 
       foreach ($this->expressions['networks'] as $network_name => $regex) {
-        if ( $this->checkRegex([ $regex ], $phone) ) {
+        if ($this->checkRegex($phone, [ $regex ])) {
           $network = $this->networks[$network_name];
 
           break;
