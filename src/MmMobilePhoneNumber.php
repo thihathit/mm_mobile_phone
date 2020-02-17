@@ -44,7 +44,7 @@ class MmMobilePhoneNumber {
 
     $this->original_number = $number;
 
-    // Add processed contents
+    // Add processed contents.
     $this->process();
   }
 
@@ -87,14 +87,14 @@ class MmMobilePhoneNumber {
     $phone = str_replace('-', '', $phone);
     $phone = str_replace(',', '', $phone);
 
-    // Process only when country code contains
+    // Process only when country code contains.
     if ( $this->checkRegex([ $this->expressions['formats']['country_code'] ], $phone) ) {
-      // Try to remove double country code
+      // Try to remove double country code.
       if ( $this->checkRegex([ $this->expressions['formats']['double_country_code'] ], $phone) ) {
         $phone = $this->str_replace_once('9595', '95', $phone);
       }
 
-      // Remove 0 before area code
+      // Remove 0 before area code.
       if ( $this->checkRegex([ $this->expressions['formats']['zero_before_areacode'] ], $phone) ) {
         $phone = $this->str_replace_once('9509', '959', $phone);
       }
@@ -144,8 +144,8 @@ class MmMobilePhoneNumber {
         }
       }
 
-      // 'gsm' network if above failed to detect network
-      // Because 'gsm' doesn't have detection regex
+      // 'gsm' network if above failed to detect network.
+      // Because 'gsm' doesn't have detection regex.
       if ($network == $this->networks['unknown']) {
         $network = $this->networks['gsm'];
       }
@@ -172,7 +172,7 @@ class MmMobilePhoneNumber {
   public function switchNumber($number) {
     $this->original_number = $number;
 
-    // Re-process
+    // Re-process.
     $re_process = $this->process();
 
     return $re_process;
@@ -189,7 +189,7 @@ class MmMobilePhoneNumber {
     $localPhoneNumber = $this->localPhoneNumber();
     $internationalPhoneNumber = $this->internationalPhoneNumber();
 
-    // Define contents
+    // Define contents.
     $this->phonenumber = $valid ? $sanitizePhonenumber : NULL;
     $this->local_phonenumber = $localPhoneNumber;
     $this->international_phonenumber = $internationalPhoneNumber;
