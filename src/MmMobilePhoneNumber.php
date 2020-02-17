@@ -13,8 +13,7 @@ class MmMobilePhoneNumber {
   private $expressions = [];
 
   /**
-   * Assign rules privately.
-   * Process the phone number info.
+   * Assign rules privately & Process the phone number info.
    */
   public function __construct($number) {
     $this->operators['ooredoo'] = "Ooredoo";
