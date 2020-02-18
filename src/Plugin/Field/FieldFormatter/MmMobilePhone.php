@@ -103,13 +103,7 @@ class MmMobilePhone extends FormatterBase {
   }
 
   /**
-   * Generate the output appropriate for one field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   One field item.
-   *
-   * @return string
-   *   The textual output generated.
+   * {@inheritdoc}
    */
   protected function viewValue(FieldItemInterface $item, $langcode) {
     $output = [];
