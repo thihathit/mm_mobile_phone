@@ -22,7 +22,7 @@ As usual download and enable.
 
 Install the module.
 - Add new "MM Mobile Phone" field.
-- Go to display settings and chose "Mobile Phone" formatter for you textfield.
+- Go to display settings and chose "Mobile Phone" formatter for your new field.
 - Configure on field formatter settings (optional).
 - Save display settings.
 
