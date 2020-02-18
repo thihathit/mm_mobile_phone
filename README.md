@@ -25,3 +25,7 @@ Install the module.
 - Go to display settings and chose "Mobile Phone" formatter for you textfield.
 - Configure on field formatter settings (optional).
 - Save display settings.
+
+# PAREVIEW
+
+[https://pareview.sh/pareview/https-git.drupal.org-project-mm_mobile_phone.git](https://pareview.sh/pareview/https-git.drupal.org-project-mm_mobile_phone.git)
