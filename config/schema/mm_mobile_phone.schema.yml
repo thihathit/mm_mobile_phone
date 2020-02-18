@@ -1,0 +1,10 @@
+field.formatter.settings.mm_mobile_phone_formatter_text:
+  type: mapping
+  label: 'Mobile Phone format settings'
+  mapping:
+    style:
+      type: string
+      label: 'Style'
+    tel_protocol:
+      type: boolean
+      label: 'Protocol tel:'
