@@ -115,7 +115,7 @@ class MmMobilePhone extends FormatterBase {
     $tel_protocol = $this->getSetting('tel_protocol');
 
     // Format value.
-    $formatted_value = $this->t($phone->{$style});
+    $formatted_value = $phone->{$style};
 
     // Set output as markup.
     $output['#markup'] = $formatted_value;
