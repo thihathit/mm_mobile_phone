@@ -122,7 +122,7 @@ class MmMobilePhone extends FormatterBase {
 
     // Make tel: link.
     if ($tel_protocol) {
-      $url  = Url::fromUri("tel:" . $phone->international_phonenumber);
+      $url = Url::fromUri("tel:" . $phone->international_phonenumber);
       $link_text = $formatted_value;
 
       // Output with tel: protocol.
